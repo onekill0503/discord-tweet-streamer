@@ -29,33 +29,34 @@ client.on("ready", async () => {
 
   // start stream twitter tweet data
   LOG.loading(`Send stream request`);
-  // const response = await axios.get(STREAM_URL ,{
-  //       responseType: 'stream',
-  //       headers: {
-  //           "Authorization":`Bearer ${TWITTER_TOKEN}`
-  //       }
-  //   })
-  // LOG.success(`Success send stream request`);
-  // // create function to handle data received from streaming
-  // response.data.on("data" , (data: any) => {
-  //   const cvdata: Buffer = Buffer.from(data);
-  //   if((Buffer.from([0xd, 0xa])).toString() !== cvdata.toString()){
-  //     // declare new variable with type any
-  //     let parsed: any;
-  //     try{
-  //       // parsed streamed data into json
-  //       parsed = JSON.parse(cvdata.toString());
-  //       // send tweet to specific discord channel
-  //       dc.send(parsed?.data?.id , client);
-  //     }catch(err: any){
-  //       LOG.error(err.message);
-  //     }
-  //   }
-  // })
-  // // function running when streaming ended
-  // response.data.on('end', () => {
-  //       LOG.info(`Twitter Stream Ended.`)
-  // });
+  const response = await axios.get(STREAM_URL ,{
+        responseType: 'stream',
+        headers: {
+            "Authorization":`Bearer ${TWITTER_TOKEN}`
+        }
+    })
+  LOG.success(`Success send stream request`);
+  // create function to handle data received from streaming
+  response.data.on("data" , (data: any) => {
+    const cvdata: Buffer = Buffer.from(data);
+    if((Buffer.from([0xd, 0xa])).toString() !== cvdata.toString()){
+      // declare new variable with type any
+      let parsed: any;
+      try{
+        // parsed streamed data into json
+        parsed = JSON.parse(cvdata.toString());
+        // send tweet to specific discord channel
+        LOG.info(`Sending tweet with id ${parsed?.data?.id}`);
+        dc.send(parsed?.data?.id , client);
+      }catch(err: any){
+        LOG.error(err.message);
+      }
+    }
+  })
+  // function running when streaming ended
+  response.data.on('end', () => {
+        LOG.info(`Twitter Stream Ended.`)
+  });
 
   // register slash commands
   await cmd.register();
