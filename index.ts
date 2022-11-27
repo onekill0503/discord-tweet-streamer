@@ -35,7 +35,6 @@ client.on("ready", async () => {
   LOG.success(`Success send stream request`);
   // create function to handle data received from streaming
   for await (const tweet of stream) {
-    console.log(tweet.data);
     try{
       // send tweet to specific discord channel
       LOG.info(`Sending tweet with id ${tweet?.data?.id}`);
