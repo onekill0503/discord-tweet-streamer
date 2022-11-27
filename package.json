@@ -21,6 +21,7 @@
     "discord.js": "^14.6.0",
     "dotenv": "^16.0.3",
     "monk": "^7.3.4",
+    "twitter-api-sdk": "^1.2.1",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

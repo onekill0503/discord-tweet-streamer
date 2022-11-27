@@ -5,7 +5,8 @@ import { Client } from 'discord.js'
 // load
 const {  CHANNEL_ID }: any = process.env
 
-async function send(id: string , user: Client) {
+async function send(id: string | undefined , user: Client) {
+    if(!id) return;
     try {
         if(user && id){
             const ch: any = await user.channels.cache.get(CHANNEL_ID);

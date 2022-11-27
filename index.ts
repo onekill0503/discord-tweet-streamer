@@ -8,6 +8,7 @@ const {
 }: any = process.env;
 
 import axios from "axios";
+import {Client as TwitterClient} from "twitter-api-sdk";
 import { ActivityType, Client  , Events, Message , ChatInputCommandInteraction } from "discord.js"
 import it from './utils/intents'
 import { Buffer } from 'buffer'
@@ -21,6 +22,7 @@ import { ICollection } from "monk";
 const filters: ICollection = DB.get('filters');
 
 const client: Client = new Client({ intents: [it] });
+const twitter: TwitterClient = new TwitterClient(TWITTER_TOKEN);
 
 client.on("ready", async () => {
   LOG.info(`Logged in as ${client.user?.tag}!`);
@@ -29,34 +31,19 @@ client.on("ready", async () => {
 
   // start stream twitter tweet data
   LOG.loading(`Send stream request`);
-  const response = await axios.get(STREAM_URL ,{
-        responseType: 'stream',
-        headers: {
-            "Authorization":`Bearer ${TWITTER_TOKEN}`
-        }
-    })
+  const stream = twitter.tweets.searchStream();
   LOG.success(`Success send stream request`);
   // create function to handle data received from streaming
-  response.data.on("data" , (data: any) => {
-    const cvdata: Buffer = Buffer.from(data);
-    if((Buffer.from([0xd, 0xa])).toString() !== cvdata.toString()){
-      // declare new variable with type any
-      let parsed: any;
-      try{
-        // parsed streamed data into json
-        parsed = JSON.parse(cvdata.toString());
-        // send tweet to specific discord channel
-        LOG.info(`Sending tweet with id ${parsed?.data?.id}`);
-        dc.send(parsed?.data?.id , client);
-      }catch(err: any){
-        LOG.error(err.message);
-      }
+  for await (const tweet of stream) {
+    console.log(tweet.data);
+    try{
+      // send tweet to specific discord channel
+      LOG.info(`Sending tweet with id ${tweet?.data?.id}`);
+      dc.send(tweet.data?.id , client);
+    }catch(err: any){
+      LOG.error(err.message);
     }
-  })
-  // function running when streaming ended
-  response.data.on('end', () => {
-        LOG.info(`Twitter Stream Ended.`)
-  });
+  }
 
   // register slash commands
   await cmd.register();
