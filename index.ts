@@ -24,11 +24,7 @@ const filters: ICollection = DB.get('filters');
 const client: Client = new Client({ intents: [it] });
 const twitter: TwitterClient = new TwitterClient(TWITTER_TOKEN);
 
-client.on("ready", async () => {
-  LOG.info(`Logged in as ${client.user?.tag}!`);
-  // set up presence
-  client?.user?.setPresence({ activities: [{ name: 'Streaming Airdrop at Twitter', type: ActivityType.Streaming }], status: 'dnd' });
-
+const streamTwitter = async () => {
   // start stream twitter tweet data
   LOG.loading(`Send stream request`);
   const stream = twitter.tweets.searchStream();
@@ -43,10 +39,19 @@ client.on("ready", async () => {
       LOG.error(err.message);
     }
   }
+  // when stream stop , stream again !
+  await streamTwitter();
+}
+
+client.on("ready", async () => {
+  LOG.info(`Logged in as ${client.user?.tag}!`);
+  // set up presence
+  client?.user?.setPresence({ activities: [{ name: 'Streaming Airdrop at Twitter', type: ActivityType.Streaming }], status: 'dnd' });
 
   // register slash commands
   await cmd.register();
-
+  // create recursive function
+  await streamTwitter();
 });
 
 client.on(Events.MessageCreate , async (msg: Message) => {
