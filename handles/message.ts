@@ -1,5 +1,6 @@
 require("dotenv").config();
 import { Client } from 'discord.js'
+import LOG from '../utils/logger'
 
 // load
 const {  CHANNEL_ID }: any = process.env
@@ -12,7 +13,7 @@ async function send(id: string | undefined , user: Client) {
             await ch?.send(`https://twitter.com/i/web/status/${id}`);
         }else throw new Error("Missing parameter");
     }catch(err: any){
-        console.log(err.message);
+        LOG.error(err.message);
     }
 }
 

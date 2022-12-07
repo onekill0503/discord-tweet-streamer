@@ -2,29 +2,27 @@ import {v4 as uuid} from 'uuid';
 
 export default class Base {
     
-    private id?: string = uuid();
-    private created_at?: string = new Date().toString();
-    private updated_at?: string = new Date().toString() ;
+    private _id: string = uuid();
+    private _created_at: string = new Date().toString();
+    private _updated_at: string = new Date().toString() ;
 
-    // setter
-    public setId(arg: string): void{
-        this.id = arg;
+    set id(arg: string){
+        this._id = arg;
     }
-    public setCreatedAt(arg: string): void{
-        this.created_at = arg;
+    set created_at(arg: string){
+        this._created_at = arg;
     }
-    public setUpdatedAt(arg: string): void{
-        this.updated_at = arg;
+    set updated_at(arg: string){
+        this._updated_at = arg;
     }
 
-    // getter
-    public getId(): string | undefined {
-        return this.id;
+    get id(): string {
+        return this._id;
     }
-    public getCreatedAt(): string | undefined {
-        return this.created_at;
+    get created_at(): string {
+        return this._created_at;
     }
-    public getUpdatedAt(): string | undefined {
-        return this.updated_at;
+    get updated_at(): string {
+        return this._updated_at;
     }
 }
