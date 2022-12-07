@@ -33,9 +33,7 @@ async function seed(): Promise<void> {
         const records: Array<Filter> = [];
         filtersData.data.data.map((v : any) => {
             if(filterIdList.indexOf(v.id) < 0 ){
-                const record: Filter = new Filter();
-                record.setFilter_Id(v.id);
-                record.setValue(v.value);
+                const record: Filter = new Filter(v.id , v.value);
                 records.push(record);
             }
         })

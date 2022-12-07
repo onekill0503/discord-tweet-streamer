@@ -68,9 +68,7 @@ const exec = {
                 })
             }
             // save new filter into database
-            const record: Filter = new Filter()
-            record.setFilter_Id(savedID);
-            record.setValue(options.value);
+            const record: Filter    = new Filter(savedID , options.value);
             await filters.insert(record);
             LOG.success("Success add new filter");
             // reply on discord

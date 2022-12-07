@@ -1,23 +1,29 @@
 import base from './base'
-import ILog from './interfaces/logs'
 
-class Log extends base implements ILog {
-    type?: string;
-    message?: string;
+class Log extends base {
+    private _type: string;
+    private _message: string;
 
-    public setType(arg: string): void {
-        this.type = arg;
-        this.setUpdatedAt(new Date().getTime().toString());
+    constructor(type: string = "" , message: string = ""){
+        super()
+        this._type = type;
+        this._message = message;
     }
-    public setMessage(arg: string): void {
-        this.message = arg;
-        this.setUpdatedAt(new Date().getTime().toString());
+
+    set type(arg: string){
+        this._type = arg;
+        this.updated_at = new Date().toString()
     }
-    public getType() : string | undefined {
-        return this.type; 
+    set message(arg: string){
+        this._message = arg;
+        this.updated_at = new Date().toString()
     }
-    public getMessage() : string | undefined {
-        return this.message; 
+
+    get type(): string {
+        return this._type;
+    }
+    get message(): string {
+        return this._message;
     }
 }
 
