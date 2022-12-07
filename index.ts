@@ -3,20 +3,17 @@ require("dotenv").config();
 const {
   DC_TOKEN ,
   TWITTER_TOKEN,
-  STREAM_URL,
   FILTER_URL
 }: any = process.env;
 
 import axios from "axios";
 import {Client as TwitterClient} from "twitter-api-sdk";
-import { ActivityType, Client  , Events, Message , ChatInputCommandInteraction } from "discord.js"
+import { ActivityType, Client  , Events, Message } from "discord.js"
 import it from './utils/intents'
-import { Buffer } from 'buffer'
 import dc from './handles/message'
 import cmd from './handles/commands'
 import exec from './handles/executes'
 import LOG from './utils/logger'
-import Filter from "./models/filters";
 import DB from './database'
 import { ICollection } from "monk";
 const filters: ICollection = DB.get('filters');

@@ -1,5 +1,4 @@
 require("dotenv").config();
-import axios from 'axios'
 import { Client } from 'discord.js'
 
 // load
