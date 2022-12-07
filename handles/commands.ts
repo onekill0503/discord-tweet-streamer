@@ -2,6 +2,7 @@
 import { config } from 'dotenv'
 import { REST , Routes , SlashCommandBuilder } from 'discord.js'
 import LOG from '../utils/logger'
+import CMD from '../enum/command'
 
 // load
 config();
@@ -15,19 +16,19 @@ const commands: Array<any> = [];
 // add command
 commands.push({
     data: new SlashCommandBuilder()
-            .setName(`ping`)
+            .setName(CMD.PING)
             .setDescription(`Replies with Pong!`)
 })
 
 commands.push({
 	data: new SlashCommandBuilder()
-		.setName(`remove_filter`)
+		.setName(CMD.REMOVE_FILTER)
 		.setDescription(`Remove specific filter`)
 })
 
 commands.push({
 	data: new SlashCommandBuilder()
-		.setName(`add_filter`)
+		.setName(CMD.ADD_FILTER)
 		.setDescription(`Add new tweet filter`)
 		.addStringOption(op => op
 			.setDescription(`Filters Value`)
