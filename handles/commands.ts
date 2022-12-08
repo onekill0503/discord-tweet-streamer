@@ -51,9 +51,9 @@ async function register() {
 		);
 
 		LOG.info(`Successfully reloaded ${data.length} application (/) commands.`);
-	} catch (error) {
+	} catch (error: any) {
 		// And of course, make sure you catch and log any errors!
-		console.error(error);
+		LOG.error(error?.message)
 	}
 }
 

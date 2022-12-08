@@ -1,29 +1,29 @@
 import base from './base'
 
 class Log extends base {
-    private _type: string;
-    private _message: string;
+    private type: string;
+    private message: string;
 
     constructor(type: string = "" , message: string = ""){
         super()
-        this._type = type;
-        this._message = message;
+        this.type = type;
+        this.message = message;
     }
 
-    set type(arg: string){
-        this._type = arg;
-        this.updated_at = new Date().toString()
+    set _type(arg: string){
+        this.type = arg;
+        this._updated_at = new Date().toString()
     }
-    set message(arg: string){
-        this._message = arg;
-        this.updated_at = new Date().toString()
+    set _message(arg: string){
+        this.message = arg;
+        this._updated_at = new Date().toString()
     }
 
-    get type(): string {
-        return this._type;
+    get _type(): string {
+        return this.type;
     }
-    get message(): string {
-        return this._message;
+    get _message(): string {
+        return this.message;
     }
 }
 
